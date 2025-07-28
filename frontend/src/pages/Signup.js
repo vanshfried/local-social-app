@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Signup.css";  // ✅ Import CSS file
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -25,18 +26,20 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <input type="text" placeholder="Username" value={username}
-          onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} />
-        <input type="password" placeholder="Confirm Password" value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)} />
-        <button type="submit">Signup</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="signup-container">
+      <div className="signup-box">
+        <h2>Signup</h2>
+        <form onSubmit={handleSignup}>
+          <input type="text" placeholder="Username" value={username}
+            onChange={(e) => setUsername(e.target.value)} />
+          <input type="password" placeholder="Password" value={password}
+            onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" placeholder="Confirm Password" value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)} />
+          <button type="submit">Signup</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };
