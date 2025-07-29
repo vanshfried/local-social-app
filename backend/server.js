@@ -6,9 +6,11 @@ const authRoutes = require('./src/routes/authRoutes');
 dotenv.config();
 
 const app = express();
+const postRoutes = require('./src/routes/postRoutes');
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 // Test route
 app.get('/', (req, res) => {
   res.send('API is running...');
