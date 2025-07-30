@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./CreatePost.css";
+import { createPost } from "../process/api";
 
-const MAX_TITLE_LENGTH = 300;
+const MAX_TITLE_LENGTH = 50;
+const MAX_CONTENT_LENGTH = 3000;
+const MIN_CONTENT_LENGTH = 50;
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -25,20 +27,16 @@ const CreatePost = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
+    formData.append("title", title.replace(/\s+/g, " ").trim());
+    formData.append("content", content.replace(/\s+/g, " ").trim());
     if (video) formData.append("video", video);
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
 
     try {
-      await axios.post("http://localhost:5000/api/posts", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await createPost(formData, token);
+
       navigate("/");
     } catch (err) {
       alert("You must be logged in to post");
@@ -50,6 +48,7 @@ const CreatePost = () => {
       <div className="reddit-card">
         <h3>Create a post</h3>
         <form onSubmit={handleSubmit}>
+          {/* Title */}
           <div className="title-wrapper">
             <input
               type="text"
@@ -69,15 +68,35 @@ const CreatePost = () => {
             </span>
           </div>
 
-          <textarea
-            ref={textareaRef}
-            placeholder="Text (optional)"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="reddit-textarea"
-            onInput={handleTextareaInput}
-          />
+          {/* Content */}
+          <div className="textarea-wrapper">
+            <textarea
+              ref={textareaRef}
+              placeholder="Text (optional)"
+              maxLength={MAX_CONTENT_LENGTH}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="reddit-textarea"
+              onInput={handleTextareaInput}
+            />
+            <span
+              className={`char-counter ${
+                content.length > MAX_CONTENT_LENGTH - 250 ||
+                content.length < MIN_CONTENT_LENGTH
+                  ? "warning"
+                  : ""
+              }`}
+            >
+              {content.length}/{MAX_CONTENT_LENGTH}
+            </span>
+            {content.trim().length < MIN_CONTENT_LENGTH && (
+              <span className="error-message">
+                Content must be at least {MIN_CONTENT_LENGTH} characters.
+              </span>
+            )}
+          </div>
 
+          {/* Media */}
           <div className="reddit-media">
             <label className="media-btn">
               Add Images
@@ -100,6 +119,7 @@ const CreatePost = () => {
             </label>
           </div>
 
+          {/* Actions */}
           <div className="reddit-actions">
             <button
               type="button"
@@ -108,7 +128,13 @@ const CreatePost = () => {
             >
               Cancel
             </button>
-            <button type="submit" className="post-btn">
+            <button
+              type="submit"
+              className="post-btn"
+              disabled={
+                !title.trim() || content.trim().length < MIN_CONTENT_LENGTH
+              }
+            >
               Post
             </button>
           </div>

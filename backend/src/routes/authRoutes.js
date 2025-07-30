@@ -3,7 +3,16 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// Signup
+// Helper to generate JWT
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user._id, username: user.username }, // include username
+    process.env.JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+};
+
+// ✅ Signup (returns token for auto-login)
 router.post('/signup', async (req, res) => {
   try {
     const { username, password, confirmPassword } = req.body;
@@ -29,13 +38,20 @@ router.post('/signup', async (req, res) => {
 
     const user = await User.create({ username, password });
 
-    res.status(201).json({ message: 'Signup successful' });
+    // ✅ Auto-login
+    const token = generateToken(user);
+
+    res.status(201).json({ 
+      message: 'Signup successful',
+      token,
+      username: user.username 
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Login
+// ✅ Login (same structure as signup)
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -45,9 +61,12 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = generateToken(user);
 
-    res.json({ token, username: user.username });
+    res.json({ 
+      token, 
+      username: user.username 
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

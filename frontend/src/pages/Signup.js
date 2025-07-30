@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { signupUser } from "../process/api";
 import { useNavigate, Link } from "react-router-dom";
 import "./Signup.css";
 
@@ -13,11 +13,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
-        username,
-        password,
-        confirmPassword,
-      });
+      const res = await signupUser({username, password, confirmPassword})
       setMessage(res.data.message);
       navigate("/login");
     } catch (err) {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const Post = require("./Post"); // Import Post model
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Hash password before saving
+// ✅ Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
@@ -32,9 +33,20 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Compare password for login
+// ✅ Compare password for login
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+// ✅ Cascade delete posts when a user is deleted
+userSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const userId = this.getQuery()["_id"];
+    await Post.deleteMany({ author: userId }); // Deletes all posts from this user
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = mongoose.model("User", userSchema);

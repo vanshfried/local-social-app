@@ -19,12 +19,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Public - Get all posts
+// Public - Get all posts
 router.get('/', async (req, res) => {
   try {
     const posts = await Post.find()
       .populate('author', 'username')
-      .sort({ createdAt: -1 });
-    res.json(posts);
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // ✅ Filter posts with missing authors
+    const filteredPosts = posts.filter(post => post.author);
+
+    res.json(filteredPosts);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching posts' });
   }
