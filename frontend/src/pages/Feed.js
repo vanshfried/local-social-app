@@ -30,7 +30,32 @@ const Feed = () => {
         <div key={post._id} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px" }}>
           <h3>{post.title}</h3>
           <p>{post.content}</p>
-          <small>By {post.author.username} in {post.community}</small>
+
+          {/* Display Images */}
+          {post.images && post.images.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
+              {post.images.map((img, index) => (
+                <img 
+                  key={index} 
+                  src={`http://localhost:5000${img}`} 
+                  alt="post" 
+                  style={{ maxWidth: "200px", borderRadius: "5px" }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Display Video */}
+          {post.video && (
+            <video width="320" height="240" controls style={{ marginTop: "10px" }}>
+              <source src={`http://localhost:5000${post.video}`} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+
+          <small style={{ display: "block", marginTop: "10px" }}>
+            By {post.author.username} in {post.community}
+          </small>
         </div>
       ))}
     </div>

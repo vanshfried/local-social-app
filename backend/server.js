@@ -7,6 +7,8 @@ dotenv.config();
 
 const app = express();
 const postRoutes = require('./src/routes/postRoutes');
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRoutes);

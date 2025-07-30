@@ -1,0 +1,139 @@
+/* Container */
+.reddit-container {
+  background: #dae0e6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  font-family: Verdana, sans-serif;
+}
+
+/* Card */
+.reddit-card {
+  background: white;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 16px;
+  box-sizing: border-box;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.reddit-card h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* Title input + counter */
+.title-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.reddit-title {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* space for counter */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+.char-counter {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #888;
+}
+
+.char-counter.warning {
+  color: red;
+}
+
+/* Textarea */
+.reddit-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: none;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  line-height: 1.4;
+  font-family: Arial, sans-serif;
+}
+
+/* Media upload */
+.reddit-media {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.media-btn {
+  padding: 8px 12px;
+  background: #f6f7f8;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.media-btn:hover {
+  background: #f0f0f0;
+}
+
+/* Actions */
+.reddit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto; /* push buttons to bottom */
+}
+
+.cancel-btn {
+  background: transparent;
+  border: none;
+  color: #0079d3;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.post-btn {
+  background: #0079d3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.post-btn:hover {
+  background: #0064b1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .reddit-card {
+    max-width: 95%;
+    height: auto;
+  }
+  .reddit-actions {
+    flex-wrap: nowrap;
+  }
+}
