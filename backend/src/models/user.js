@@ -19,13 +19,19 @@ const userSchema = new mongoose.Schema({
     enum: ["public", "private"],
     default: "public",
   },
+  communities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Community", // Reference to communities user joined
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-// ✅ Hash password before saving
+// Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
@@ -33,12 +39,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// ✅ Compare password for login
+// Compare password for login
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// ✅ Cascade delete posts when a user is deleted
+// Cascade delete posts when a user is deleted
 userSchema.pre("findOneAndDelete", async function (next) {
   try {
     const userId = this.getQuery()["_id"];

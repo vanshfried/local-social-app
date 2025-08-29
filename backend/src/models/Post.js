@@ -9,22 +9,17 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  images: [
-    {
-      type: String, // Store URL or filename
-    }
-  ],
-  video: {
-    type: String, // Single video URL
-  },
+  images: [String], // Array of image URLs
+  video: String,    // Single video URL
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   community: {
-    type: String,
-    default: 'India'
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Community', // instead of plain string
+    required: true
   },
   createdAt: {
     type: Date,

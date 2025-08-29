@@ -1,0 +1,91 @@
+/* feed.css */
+
+.feed-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.feed-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.feed-header h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.feed-auth {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.feed-auth button {
+  margin: 5px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0073e6;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.feed-auth button:hover {
+  background-color: #005bb5;
+}
+
+/* Post Card */
+.post-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.post-card h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.post-card p {
+  margin: 10px 0;
+  color: #444;
+  line-height: 1.5;
+}
+
+/* Images inside post */
+.post-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.post-images img {
+  max-width: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #eee;
+}
+
+/* Video */
+.post-video {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Author footer */
+.post-footer {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #777;
+}

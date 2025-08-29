@@ -5,6 +5,7 @@ const connectDB = require('./src/config/db');
 const authRoutes = require('./src/routes/authRoutes');
 const postRoutes = require('./src/routes/postRoutes');
 const adminRoutes = require('./src/routes/admin'); // ✅ Correct path
+const communitiesRoutes = require("./src/routes/communities");
 const path = require('path');
 
 dotenv.config();
@@ -17,10 +18,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 app.use(express.json());
 
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/admin', adminRoutes); // ✅ Admin route
+app.use("/api/communities", communitiesRoutes);
 
 // Connect DB
 connectDB();
